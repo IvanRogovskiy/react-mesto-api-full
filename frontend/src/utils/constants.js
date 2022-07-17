@@ -9,7 +9,7 @@ export const validationParams = {
 
 export const token = 'd1dbd6a3-e54d-478f-a23d-d884fc9a8682'
 
-export const baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-35';
+export const baseUrl = 'http://api.ivanrg.mesto.nomorepartiesxyz.ru';
 export const headers = {
             authorization: token,
             'Content-Type': 'application/json'
