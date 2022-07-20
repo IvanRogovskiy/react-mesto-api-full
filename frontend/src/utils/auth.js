@@ -1,4 +1,4 @@
-const BASE_URL = `https://auth.nomoreparties.co`
+const BASE_URL = `https://api.ivanrg.mesto.nomorepartiesxyz.ru`
 
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
@@ -30,6 +30,7 @@ export const authorize = (email, password) => {
         headers: {
             'Content-type': 'application/json',
         },
+        credentials: "include",
         body: JSON.stringify({password, email})
     })
         .then(res => {
@@ -62,8 +63,10 @@ export const checkToken = (token) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
+
+            // 'Authorization': `Bearer ${token}`,
+        },
+        credentials: "include"
     })
         .then(res => {
             return res.json().then(json => {

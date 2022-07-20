@@ -9,7 +9,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const { validateCreateUser, validateLogin } = require('./middlewares/validation');
 const { NotFoundError } = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { corsHandler } = require("./middlewares/corsHandler");
+const { corsAccessHandler } = require("./middlewares/corsHandler");
 
 const { PORT = 3000, BASE_PATH } = process.env;
 
@@ -20,7 +20,13 @@ app.use(cookieParser());
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
-app.use(corsHandler);
+app.use(corsAccessHandler);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', [validateLogin], login);
 app.post('/signup', [validateCreateUser], createUser);

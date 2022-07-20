@@ -25,7 +25,7 @@ const Main = ({onEditAvatar, onEditProfile, onCardClick, onAddPlace, cards, onCa
                 <button type="button" onClick={onAddPlace} className="profile__add-button"/>
             </section>
             <section className="places">
-                {cards.map((card) =>
+                {cards === [] ? <p>'No cards yet'</p> : cards.map((card) =>
                         <Card card={card} onImageClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} key={card._id}/>
                 )}
             </section>

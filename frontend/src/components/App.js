@@ -106,14 +106,14 @@ const App = () => {
     
     const handleUpdateUser = ({name, about}) => {
       api.updateUserInfo({name, about})
-          .then(data => setCurrentUser({currentUser, ...data}))
+          .then(data => setCurrentUser({currentUser, ...data.data}))
           .catch(err => console.log(err)) 
       closeAllPopups();
     }
 
     const handleUpdateAvatar = (link) => {
         api.updateUserAvatar(link)
-            .then(data => setCurrentUser({currentUser, ...data}))
+            .then(data => setCurrentUser({currentUser, ...data.data}))
             .catch(err => console.log(err))
         closeAllPopups();
     }
@@ -121,24 +121,24 @@ const App = () => {
     const handlePlaceAdd = ({name, link}) => {
         api.addNewCard({name, link})
             .then(newCard => {
-                setCards([newCard, ...cards])
+                setCards([newCard.data, ...cards])
             })
             .catch(err => console.log(err))
         closeAllPopups();
     }
 
     const handleCardLike = (card) => {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
         if (!isLiked) {
             api.addLike(card._id)
                 .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c));
             })
                 .catch(err => console.log(err));
         } else {
             api.removeLike(card._id)
                 .then((newCard) => {
-                    setCards((state) => state.map((c) => c._id === card._id ? newCard : c))})
+                    setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c))})
                 .catch(err => console.log(err))
         }
     }
@@ -182,7 +182,7 @@ const App = () => {
     React.useEffect(() => {
         api.getMyProfileInfo()
             .then((userData) => {
-                setCurrentUser(userData)
+                setCurrentUser(userData.data)
             })
             .catch(err => console.log(err))
     }, [])
@@ -190,7 +190,7 @@ const App = () => {
     React.useEffect(() => {
         api.getUsersCards()
             .then((userCards) => {
-                setCards(userCards)
+                setCards(userCards.data.reverse())
             })
             .catch(err => console.log(err))
     }, [])

@@ -9,7 +9,8 @@ class Api {
 
     getMyProfileInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
-            headers:this._headers
+            headers:this._headers,
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, 'Ошибка получения данных профиля')}
@@ -18,7 +19,8 @@ class Api {
 
     getUsersCards() {
         return fetch(`${this._baseUrl}/cards `, {
-            headers: this._headers
+            headers: this._headers,
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, 'Ошибка получения карточек')}
@@ -32,7 +34,8 @@ class Api {
             body: JSON.stringify({
                 name,
                 about
-            })
+            }),
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, 'Ошибка при обновлении данных юзера') }
@@ -43,6 +46,7 @@ class Api {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
+            credentials: "include",
             body: JSON.stringify({
                 name,
                 link
@@ -57,6 +61,7 @@ class Api {
         return fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: this._headers,
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, `Ошибка ${res.status} при удалении карточки с id ${cardId}`)
@@ -67,6 +72,7 @@ class Api {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: this._headers,
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, `Ошибка ${res.status} при лайке карточки с id ${cardId}`)
@@ -77,6 +83,7 @@ class Api {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
             headers: this._headers,
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, `Ошибка ${res.status} при удалении лайка карточки с id ${cardId}`)
@@ -89,7 +96,8 @@ class Api {
             headers: this._headers,
             body: JSON.stringify({
                 avatar: link,
-            })
+            }),
+            credentials: "include",
         })
             .then(res => {
                 return this._checkResponse(res, `Ошибка ${res.status} при обновлении аватара пользователя`)
