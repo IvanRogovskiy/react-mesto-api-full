@@ -15,10 +15,8 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.params.userId)
+    .orFail(new NotFoundError('Пользователь не найден', 'UserNotFoundError'))
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден', 'UserNotFoundError');
-      }
       res.send({ data: user });
     })
     .catch((err) => {
@@ -131,12 +129,12 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user.id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-        res.cookie('jwt', token, {
-          httpOnly: true,
-          maxAge: 3600000 * 24 * 7,
-          sameSite: true,
-          secure: true,
-        })
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        maxAge: 3600000 * 24 * 7,
+        sameSite: true,
+        secure: true,
+      })
         .send({ token });
     })
     .catch(next);

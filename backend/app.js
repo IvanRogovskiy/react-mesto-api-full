@@ -9,15 +9,15 @@ const errorHandler = require('./middlewares/errorHandler');
 const { validateCreateUser, validateLogin } = require('./middlewares/validation');
 const { NotFoundError } = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { corsAccessHandler } = require("./middlewares/corsHandler");
+const { corsAccessHandler } = require('./middlewares/corsHandler');
 
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3000, BASE_PATH, DB_HOST = 'mongodb://localhost:27017/mestodb' } = process.env;
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+mongoose.connect(DB_HOST);
 
 app.use(requestLogger);
 app.use(corsAccessHandler);

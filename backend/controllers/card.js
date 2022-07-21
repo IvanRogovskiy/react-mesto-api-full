@@ -5,7 +5,7 @@ const { ValidationError } = require('../errors/ValidationError');
 const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
-  Card.find({}).sort({date: 'desc'})
+  Card.find({}).sort({ date: 'desc' })
     .then((cards) => res.send({ data: cards }))
     .catch(next);
 };
